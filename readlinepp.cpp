@@ -287,7 +287,13 @@ const ReadLineConfig &ReadLine::getConfig() const {
 
 
 ReadLine::ProposalGenerator::ProposalGenerator(const std::initializer_list<std::string> &options)
-:GenFn([lst = std::vector<std::string>(options)](const char *word, std::size_t sz,const std::cmatch &m, const ProposalCallback &cb) {
+:ProposalGenerator(std::vector<std::string>(options))
+{
+
+}
+
+ReadLine::ProposalGenerator::ProposalGenerator(std::vector<std::string> &&options)
+:GenFn([lst = std::move(options)](const char *word, std::size_t sz,const std::cmatch &m, const ProposalCallback &cb) {
     for (const auto &x: lst) {
         if (x.compare(0, sz, word) == 0) cb(x);
     }

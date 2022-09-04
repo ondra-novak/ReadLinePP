@@ -77,12 +77,13 @@ public:
     ///Extends GenFn with ability to create function from list of specified items
     class ProposalGenerator: public GenFn {
     public:
-
-        template<typename Fn, typename = decltype(std::declval<Fn>()(std::declval<const char *>(), std::declval<std::size_t>(), std::declval<const std::cmatch &>(), std::declval<const ProposalCallback &>()))>
-        ProposalGenerator(Fn &&fn):GenFn(std::forward<Fn>(fn)) {}
+        ///Construct using inicializer list containing list of strings as options
         ProposalGenerator(const std::initializer_list<std::string> &options);
-//        ProposalGenerator(const ProposalGenerator &other):GenFn(other) {}
+        ///Construct using list of string options
+        ProposalGenerator(std::vector<std::string> &&options);
+        ///Construct using generator function
         ProposalGenerator(const GenFn &other):GenFn(other) {}
+        ///Construct using generator function
         ProposalGenerator(GenFn &&other):GenFn(std::move(other)) {}
 
     };
