@@ -78,9 +78,12 @@ public:
     class ProposalGenerator: public GenFn {
     public:
 
-        template<typename Fn, typename = decltype(GenFn(std::declval<Fn>()))>
+        template<typename Fn, typename = decltype(std::declval<Fn>()(std::declval<const char *>(), std::declval<std::size_t>(), std::declval<const std::cmatch &>(), std::declval<const ProposalCallback &>()))>
         ProposalGenerator(Fn &&fn):GenFn(std::forward<Fn>(fn)) {}
         ProposalGenerator(const std::initializer_list<std::string> &options);
+//        ProposalGenerator(const ProposalGenerator &other):GenFn(other) {}
+        ProposalGenerator(const GenFn &other):GenFn(other) {}
+        ProposalGenerator(GenFn &&other):GenFn(std::move(other)) {}
 
     };
 
@@ -305,7 +308,7 @@ protected:
     int _appended = 0;
     CompletionList _completionList;
 
-    mutable std::atomic<bool> _dirty = false;
+    mutable std::atomic<bool> _dirty;
     mutable struct _hist_state * _state = nullptr;
     mutable bool _need_load_history = false;
     std::string _prev_line;

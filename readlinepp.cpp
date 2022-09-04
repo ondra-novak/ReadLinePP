@@ -209,11 +209,11 @@ bool ReadLine::read(std::string &line) {
     return ok;
 }
 
-ReadLine::ReadLine() {
+ReadLine::ReadLine():_dirty(false) {
     initLibs();
 }
 
-ReadLine::ReadLine(const ReadLineConfig &cfg):_config(cfg) {
+ReadLine::ReadLine(const ReadLineConfig &cfg):_config(cfg),_dirty(false) {
     initLibs();
 }
 
