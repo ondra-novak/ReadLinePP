@@ -9,5 +9,5 @@ add_library (readlinepp readlinepp.cpp)
 add_executable(rldemo demo.cpp)
 target_link_libraries(rldemo readlinepp readline pthread)
 
-install(FILES lib/libreadlinepp.a DESTINATION /usr/lib)
-install(FILES readlinepp.h DESTINATION /usr/include)
+install(FILES lib/libreadlinepp.a DESTINATION lib)
+install(FILES readlinepp.h DESTINATION include)
