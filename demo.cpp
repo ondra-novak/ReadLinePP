@@ -11,7 +11,7 @@ int main(int argv, char **argc) {
     rl.setPrompt(">");
     rl.setCompletionList({
         {"",{"hello","hi","file","csource"}},
-        {"hello ",{"world!","universe!","poeple!"}},
+        {"hello ",{"world!","universe!","people!"}},
         {"hi ",{"ondra","franta"}},
         {"file ",ReadLine::fileLookup(".")},
         {"csource ",ReadLine::fileLookup(".",".*\\.c|.*\\.cpp|.*\\.h|.*\\/")},
