@@ -235,6 +235,16 @@ public:
      * @note internally detaches from readline interface
      */
     void clearHistory();
+    
+    ///Save history - update history file (global lock)
+    /**
+     * History is automatically saved during destruction. Saving history early 
+     * can skip this step (which can solve an issue with global-lock in the destructor.
+     * 
+     * Note if there is no change in the history, nothing is saved.
+     */
+    
+    void saveHistory();
 
 public: //overwrites
 

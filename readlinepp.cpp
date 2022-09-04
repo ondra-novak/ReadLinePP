@@ -139,6 +139,18 @@ ReadLine::ProposalItem ReadLine::allocProposalItem(const std::string &str, std::
 
 }
 
+void ReadLine::saveHistory() {
+    if (!_history_file.empty() && !_need_load_history && _appended > 0){
+        run_locked([&]{
+            if (append_history(_appended, _history_file.c_str())) {
+                write_history(_history_file.c_str());
+            }
+            _appended = 0;
+            if (_config.history_limit) history_truncate_file(_history_file.c_str(), _config.history_limit);
+        });        
+    }
+}
+
 void ReadLine::initLibsInternal() {
     rl_initialize ();
     using_history();
@@ -177,14 +189,7 @@ void ReadLine::restoreRLState() const {
 
 
 ReadLine::~ReadLine() {
-    if (!_history_file.empty() || !_need_load_history) {
-        run_locked([&]{
-            if (append_history(_appended, _history_file.c_str())) {
-                write_history(_history_file.c_str());
-            }
-            if (_config.history_limit) history_truncate_file(_history_file.c_str(), _config.history_limit);
-        });
-    }
+    saveHistory();
     detach();
     clearHistory();
 }
